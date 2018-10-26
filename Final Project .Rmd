@@ -5,8 +5,18 @@ date: "10/25/2018"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+In our dataset, a number of smoke or non-smoke data is missing. So our goal is to fine wether the data is come from smoke or non-smoke and their parameters $\mu$ and $\sigma$.Assume Smoke ~ $N(\mu_1,\sigma_1^2)$, Non-Smoke ~ $N(\mu_2,\sigma_2^2)$ 
+$\theta_1=[\mu_1,\sigma_1]^T$
+$\theta_2=[\mu_2,\sigma_2]^T$
+$\theta=[\theta_1,\theta_2]$ --> the parameter need to be estimate. 
+Let $Z$ be the missing data, and set when $z=1$,the data comes from smoke, else when $z=0$ comes from non-smoke. 
+
+set initial parameters:
+$\mu_1=0.8$, $\mu_2=0.6$,$\sigma_1=1$, $\sigma_2=1$. 
+
+From the data which is complete, we select sample X which all comes from smoke.
 
 
-```
+
+
 
