@@ -2,7 +2,10 @@
 title: "Final Project"
 author: "He & Xu"
 date: "10/25/2018"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
 ---
 
 In our dataset, a number of smoke or non-smoke data is missing. So our goal is to fine wether the data is come from smoke or non-smoke and their parameters $\mu$ and $\sigma$.Assume Smoke ~ $N(\mu_1,\sigma_1^2)$, Non-Smoke ~ $N(\mu_2,\sigma_2^2)$ 
