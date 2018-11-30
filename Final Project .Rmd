@@ -1,26 +1,75 @@
 ---
-title: "Final Project"
-author: "He & Xu"
+title: "Gaussians Mixture Model in EM Algorithm"
+author: "Yuance He & Yiyi Xu"
 date: "10/25/2018"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
+### Abstract
+Use the Expectation Maximization Algorithm to estimate our Gaussians Mixture Model about the claim of the smoker and the non-smoker.
 
-In our dataset, a number of smoke or non-smoke data is missing. So our goal is to find wether the data is come from smoke or non-smoke and their parameters $\mu$ and $\sigma$.Assume Smoker ~ $N(\mu_1,\sigma_1^2)$, Non-Smoke ~ $N(\mu_2,\sigma_2^2)$ 
-$\theta_1=[\mu_1,\sigma_1]^T$
-$\theta_2=[\mu_2,\sigma_2]^T$
-$\theta=[\theta_1,\theta_2]$ --> the parameter need to be estimate. 
-Let $Z$ be the missing data, and set when $z=1$,the data comes from smoke, else when $z=0$ comes from non-smoke. 
 
-set initial parameters:
-$\mu_1=2000$, $\mu_2=1000$,$\sigma_1=100$, $\sigma_2=100$. 
+## 1 Introduction 
+we has a set of data contains gender, smoker/non-smoker, region and individual medical costs billed by health insurance. After analysiy, we find gender and region didnot has a large influence on individual medical cost, but smoker/non-smoker has a large influence. 
+So our goal here is to find the Gaussians Mixture Model $y= \alpha N(\mu_1,\sigma_1) + (1-\alpha) N(\mu_2,\sigma_2)$, where $\alpha$ belongs to $(0,1)$, and Smoker ~ $N(\mu_1,\sigma_1^2)$, Non-Smoke ~ $N(\mu_2,\sigma_2^2)$ by EM algorithm based on the data sample we had. Therefore, the result can help insurance company to determine how to rearrange the price based on whether customer is smoker or non-smoker.  
 
-We need to design a cut-off point C, based on the normal gragh, to determine $x_i$ belongs to which group, somker or non-smoker.
+## 2 Math Equations 
+E-Step
 
-After grouping our initial data, we can calculate the MLE of $\mu$ and $\sigma$ for both group. 
+Assume $\alpha$ is the percent of smoker and non-smoker. Smoker and non-smoker each satisfty different normial distribution. then the estimate of the cost fee become:
+$$P(x=x_i)= \sum _{\alpha_k} P(x_i | \alpha_k,\mu_k, \sigma_k^2)$$
+Then the log likelihood function:
+$$L(\alpha,\mu,\sigma^2)= \prod _{i=1}^{n} \sum_{\alpha_k}P(x_i | \alpha_k,\mu_k, \sigma_k^2)  $$
+$$l(\alpha,\mu,\sigma^2)=\ln(L)= \sum_{i=1}^n \log(\sum_{\alpha_k}P(x_i | \alpha_k,\mu_k, \sigma_k^2))$$
+assume $\alpha $ follow the distrubtion Q, then we have
+$$l(\alpha,\mu,\sigma^2)= \sum_{i=1}^n \log(\sum_{\alpha_k} Q(\alpha_k) \frac{P(x_i | \alpha_k,\mu_k, \sigma_k^2)}{Q(\alpha_k) })$$
+By Jensen's Inequality, 
+$$l(\alpha,\mu,\sigma^2)≥ \sum_{i=1}^n (\sum_{\alpha_k} Q(\alpha_k) \log\frac{P(x_i | \alpha_k,\mu_k, \sigma_k^2)}{Q(\alpha_k) }) $$
+where the probability of sample $x_i$ belongs to typle k is 
+$$Q(\alpha_k) = \frac{P(x_i,\alpha_k)}{\sum_{\alpha_k}P(x_i,\alpha_k)}=P(\alpha_k|x_i) $$
+M-Step 
+\begin{align}
+\begin{aligned}
 
-Then we use $\hat \mu$ and $\hat \sigma$ to re-seclect group. We use Newtow iteration method until $\hat \mu = \mu$ and $\hat \sigma = \sigma$.
+f&=\sum_{i=1}^{m} \sum_{j=1}^{k} Q_i(\alpha=j) \log\frac{P(x_i | \alpha=j)}{Q(\alpha=j) }\\
+&=\sum_{i=1}^{m} \sum_{j=1}^{k} Q_i(\alpha=j) \log\frac{P(x_i) P(\alpha=j)}{Q(\alpha=j) }\\
+&=\sum_{i=1}^{m} \sum_{j=1}^{k}w_j^i \log \frac{N(\mu_j,\sigma_j^2)}{w_j^i}\\
+&=\sum_{i=1}^{m} \sum_{j=1}^{k}w_j^i \log \frac{e^{-0.5(x_i-\mu_j)^T}(x_i-\mu_j)) \psi_j }{w_j^i \sqrt{s\pi}(sigma^2)^0.5 sigma_j^2}\\
+\end{aligned}
+\end{align}
 
-Finally, we will have mean cost and variance for smoker and non-smoker.
+\begin{align}
+\begin{aligned}
+0&=\frac{\partial f}{\partial \mu_j}\\
+&=\sum_{i=1}^m \frac{ w^i_j (x_i-\mu_j)}{ \sigma_j^2}\\
+\\
+0&=\frac{\partial f}{\partial \sigma^2_j}\\
+&=\sum_{i=1}^m w_j^i(\frac{ -1}{ 2\sigma_j^2} + \frac{(x_i-\mu_j)^T(x_i-\mu_j)}{2(\sigma_j^2)^2})\\
+\\
+0&=\frac{\partial f}{\partial \psi}\\
+&=\sum_{i=1}{m} \frac {w_j^i}{\psi_j} +\beta
+1&=\sum_{i=1}^{m}\psi_i \\
+\\
+\mu_j&= \frac{\sum_{i=1}^{m}w_j^i x_i}{\sum_{i=1}^{m}w_j^i}\\
+\sigma^2 &=\frac{\sum_{i=1}^{m}w_j^i( x_i-\mu_j)^T (x_i-\mu_j)}{\sum_{i=1}^{m}w_j^i}\\
+\psi_j&= frac{\sum_{i=1}^{m}w_j^i}{m}
+
+\end{aligned}
+\end{align}
+
+$$ \psi$$
+
+
+
+
+
+## 3 Code Chunk & Tables 
+
+
+## 4 Summary and Discussion 
+
+## Reference 
 
 
 
