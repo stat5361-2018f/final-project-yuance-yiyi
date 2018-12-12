@@ -290,74 +290,14 @@ button.code-folding-btn:focus {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
 </script>
 
 <!-- code folding -->
+
 
 
 
@@ -374,9 +314,12 @@ $(document).ready(function () {
 </div>
 
 
-<p>In our dataset, a number of smoke or non-smoke data is missing. So our goal is to fine wether the data is come from smoke or non-smoke and their parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>.Assume Smoke ~ <span class="math inline">\(N(\mu_1,\sigma_1^2)\)</span>, Non-Smoke ~ <span class="math inline">\(N(\mu_2,\sigma_2^2)\)</span> <span class="math inline">\(\theta_1=[\mu_1,\sigma_1]^T\)</span> <span class="math inline">\(\theta_2=[\mu_2,\sigma_2]^T\)</span> <span class="math inline">\(\theta=[\theta_1,\theta_2]\)</span> –&gt; the parameter need to be estimate. Let <span class="math inline">\(Z\)</span> be the missing data, and set when <span class="math inline">\(z=1\)</span>,the data comes from smoke, else when <span class="math inline">\(z=0\)</span> comes from non-smoke.</p>
-<p>set initial parameters: <span class="math inline">\(\mu_1=0.8\)</span>, <span class="math inline">\(\mu_2=0.6\)</span>,<span class="math inline">\(\sigma_1=1\)</span>, <span class="math inline">\(\sigma_2=1\)</span>.</p>
-<p>From the data which is complete, we select sample X which all comes from smoke.</p>
+<p>In our dataset, a number of smoke or non-smoke data is missing. So our goal is to find wether the data is come from smoke or non-smoke and their parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>.Assume Smoker ~ <span class="math inline">\(N(\mu_1,\sigma_1^2)\)</span>, Non-Smoke ~ <span class="math inline">\(N(\mu_2,\sigma_2^2)\)</span> <span class="math inline">\(\theta_1=[\mu_1,\sigma_1]^T\)</span> <span class="math inline">\(\theta_2=[\mu_2,\sigma_2]^T\)</span> <span class="math inline">\(\theta=[\theta_1,\theta_2]\)</span> –&gt; the parameter need to be estimate. Let <span class="math inline">\(Z\)</span> be the missing data, and set when <span class="math inline">\(z=1\)</span>,the data comes from smoke, else when <span class="math inline">\(z=0\)</span> comes from non-smoke.</p>
+<p>set initial parameters: <span class="math inline">\(\mu_1=2000\)</span>, <span class="math inline">\(\mu_2=1000\)</span>,<span class="math inline">\(\sigma_1=100\)</span>, <span class="math inline">\(\sigma_2=100\)</span>.</p>
+<p>We need to design a cut-off point C, based on the normal gragh, to determine <span class="math inline">\(x_i\)</span> belongs to which group, somker or non-smoker.</p>
+<p>After grouping our initial data, we can calculate the MLE of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> for both group.</p>
+<p>Then we use <span class="math inline">\(\hat \mu\)</span> and <span class="math inline">\(\hat \sigma\)</span> to re-seclect group. We use Newtow iteration method until <span class="math inline">\(\hat \mu = \mu\)</span> and <span class="math inline">\(\hat \sigma = \sigma\)</span>.</p>
+<p>Finally, we will have mean cost and variance for smoker and non-smoker.</p>
 
 
 
